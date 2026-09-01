@@ -50,9 +50,8 @@ npm run dev
 
 Open the printed local URL (typically `http://localhost:5173`).
 
-## Using the real Kaggle dataset
+## Kaggle dataset
 
-This project is built for the Kaggle
 ["Resume Dataset" by Snehaan Bhawal](https://www.kaggle.com/datasets/snehaanbhawal/resume-dataset).
 Download `Resume.csv` and place it at `backend/data/Resume.csv`, then re-run
 `python -m app.ml.train` — see `backend/data/README.md` for details. The repo
