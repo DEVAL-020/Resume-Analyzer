@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#1E3A8A"/>
+    </linearGradient>
+    <linearGradient id="check" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+  </defs>
+
+  <circle cx="32" cy="32" r="30" fill="url(#bg)"/>
+
+  <rect x="16" y="12" width="28" height="40" rx="3" fill="#FFF"/>
+  <polygon points="38,12 44,18 38,18" fill="#DCE8FF"/>
+
+  <circle cx="24" cy="20" r="3" fill="#2563EB"/>
+  <path d="M20 27c0-2.8 8-2.8 8 0v1h-8z" fill="#2563EB"/>
+
+  <rect x="30" y="18" width="8" height="2" rx="1" fill="#A5B4FC"/>
+  <rect x="30" y="23" width="10" height="2" rx="1" fill="#A5B4FC"/>
+
+  <circle cx="22" cy="34" r="1.3" fill="#14B8A6"/>
+  <rect x="25" y="33" width="10" height="2" rx="1" fill="#CBD5E1"/>
+
+  <circle cx="22" cy="40" r="1.3" fill="#14B8A6"/>
+  <rect x="25" y="39" width="10" height="2" rx="1" fill="#CBD5E1"/>
+
+  <circle cx="22" cy="46" r="1.3" fill="#14B8A6"/>
+  <rect x="25" y="45" width="10" height="2" rx="1" fill="#CBD5E1"/>
+
+  <circle cx="42" cy="40" r="10" fill="#FFF" stroke="#1E3A8A" stroke-width="3"/>
+  <line x1="49" y1="47" x2="56" y2="54" stroke="#1E3A8A" stroke-width="4" stroke-linecap="round"/>
+
+  <path d="M38 40l3 3 6-7"
+        fill="none"
+        stroke="url(#check)"
+        stroke-width="2.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+</svg>

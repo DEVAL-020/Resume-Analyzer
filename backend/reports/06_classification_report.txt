@@ -1,0 +1,22 @@
+                        precision    recall  f1-score   support
+
+            ACCOUNTANT       1.00      1.00      1.00         8
+              ADVOCATE       1.00      1.00      1.00         8
+              AVIATION       1.00      1.00      1.00         8
+               BANKING       1.00      1.00      1.00         8
+  BUSINESS-DEVELOPMENT       1.00      1.00      1.00         8
+          CONSTRUCTION       1.00      1.00      1.00         8
+            CONSULTANT       1.00      1.00      1.00         8
+              DESIGNER       1.00      1.00      1.00         8
+         DIGITAL-MEDIA       1.00      1.00      1.00         8
+           ENGINEERING       1.00      1.00      1.00         8
+               FINANCE       1.00      1.00      1.00         8
+            HEALTHCARE       1.00      1.00      1.00         8
+                    HR       1.00      1.00      1.00         8
+INFORMATION-TECHNOLOGY       1.00      1.00      1.00         8
+                 SALES       1.00      1.00      1.00         8
+               TEACHER       1.00      1.00      1.00         8
+
+              accuracy                           1.00       128
+             macro avg       1.00      1.00      1.00       128
+          weighted avg       1.00      1.00      1.00       128

@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@property --spot-x {
+  syntax: '<percentage>';
+  inherits: true;
+  initial-value: 50%;
+}
+
+@property --spot-y {
+  syntax: '<percentage>';
+  inherits: true;
+  initial-value: 50%;
+}
+
+:root {
+  --c-paper: 238 240 232;
+  --c-paper-card: 249 250 245;
+  --c-paper-line: 216 217 201;
+
+  --c-ink: 24 34 25;
+  --c-ink-soft: 74 84 73;
+  --c-ink-faint: 124 133 120;
+
+  --c-highlighter: 255 210 63;
+  --c-highlighter-soft: 255 235 168;
+  --c-highlighter-deep: 232 185 15;
+
+  --c-match: 47 111 78;
+  --c-match-soft: 220 234 225;
+
+  --c-gap: 174 74 58;
+  --c-gap-soft: 243 223 218;
+
+  color-scheme: light;
+}
+
+.dark {
+  --c-paper: 15 19 13;
+  --c-paper-card: 22 27 19;
+  --c-paper-line: 44 51 40;
+
+  --c-ink: 235 238 227;
+  --c-ink-soft: 176 184 168;
+  --c-ink-faint: 124 133 120;
+
+  --c-match: 111 207 154;
+  --c-match-soft: 27 51 39;
+
+  --c-gap: 255 138 118;
+  --c-gap-soft: 58 33 29;
+
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-paper text-ink font-body antialiased;
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+
+  ::selection {
+    background-color: theme('colors.highlighter.DEFAULT');
+    color: theme('colors.ink.DEFAULT');
+  }
+
+  :focus-visible {
+    outline: 2px solid theme('colors.ink.DEFAULT');
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  .highlight-mark {
+    background-image: linear-gradient(transparent 55%, theme('colors.highlighter.soft') 55%);
+    padding: 0 0.05em;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+
+  .reveal[data-inview="true"] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .lift-on-hover {
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.35s ease;
+  }
+
+  .lift-on-hover:hover {
+    transform: translateY(-3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
