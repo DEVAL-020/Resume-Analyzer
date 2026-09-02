@@ -1,81 +1,97 @@
-# AI Resume Analyzer
+# AI Resume Analyzer 📃📄
 
-A two-layer resume analysis tool:
+--> I built this as a tool that reads a resume, figures out what kind of job it's suited for, and (if you give it a job description) tells you exactly how well it actually fits that role.
 
-1. **Category prediction** — a TF-IDF + scikit-learn classifier trained on
-   thousands of labeled resumes predicts the job category a resume looks
-   like it belongs to, and explains itself by surfacing the words that
-   drove the prediction.
-2. **Job-fit verification** — a separate pass compares the resume directly
-   against a specific job description (text similarity + a curated skill
-   taxonomy) to produce matched/missing skills and a genuine fit score.
+**Live demo:** https://ai-resume-analyzer-dp.vercel.app
+
+---
+
+## What it actually does:
+
+1. **Category prediction.** A TF-IDF vectorizer + a classifier (trained on the Kaggle "Resume Dataset") looks at the resume and predicts what job category it belongs to — IT, HR, Healthcare, Finance, and so on. It also shows *which words* pushed it toward that prediction, so it's not a black box.
+
+2. **Job-fit scoring.** This is the part I actually care about. Paste in a real job description, and the app compares your resume against it directly — text similarity plus a skill-taxonomy overlap — and tells you which required skills are covered and which ones are missing. This is the difference between "this resume looks like an engineer's" and "this resume actually matches the job you're applying to."
+
+There's also a basic content check now — if you upload something that isn't a resume (an invoice, an essay, a random PDF), it gets rejected before it wastes a model prediction on garbage input.
+
+## Tech stack:
+
+**Backend:** Python, FastAPI, scikit-learn, pandas, NumPy, SciPy, matplotlib, seaborn, BeautifulSoup, pdfplumber, python-docx
+
+**Frontend:** React, TypeScript, Tailwind CSS, Vite
+
+**Deployed on:** Render (backend) + Vercel (frontend)
+
+## Project structure:
 
 ```
 ai-resume-analyzer/
-├── backend/     FastAPI + scikit-learn/pandas/matplotlib/seaborn ML pipeline
-└── frontend/    React + TypeScript + Tailwind CSS (Vite)
+├── backend/
+│   ├── app/
+│   │   ├── ml/
+│   │   │   ├── preprocess.py      
+│   │   │   ├── train.py            
+│   │   │   ├── predict.py          
+│   │   │   └── matcher.py         
+│   │   ├── skills.py             
+│   │   ├── text_extract.py        
+│   │   ├── resume_validator.py   
+│   │   └── main.py              
+│   ├── data/                     
+│   └── reports/                
+└── frontend/
+    └── src/
+        ├── components/            
+        └── lib/api.ts             
 ```
 
-## Quick start
+## How You run it in your computer:
 
-### 1. Backend
+You'll need Python 3.11 or 3.12 (newer versions can hit dependency build issues on Windows — I learned this the hard way) and Node.js 18+.
+
+### Backend
 
 ```bash
 cd backend
-python -m venv .venv && source .venv/bin/activate   # optional but recommended
+python -m venv venv
+venv\Scripts\activate        # source venv/bin/activate on Mac/Linux
 pip install -r requirements.txt
+```
 
-# Get training data (see data/README.md for the real Kaggle dataset).
-# To try it immediately with a synthetic placeholder dataset instead:
+Get some training data — either the real dataset or a quick synthetic one to test with:
+
+```bash
+# Option A: the real Kaggle dataset
+# Download Resume.csv from kaggle.com/datasets/snehaanbhawal/resume-dataset
+# and place it at backend/data/Resume.csv
+
+# Option B: generate a synthetic placeholder dataset instead
 python data/generate_sample_data.py
+```
 
-# Train the model (writes reports/*.png and app/models/*.joblib)
+Train the model, then start the API:
+
+```bash
 python -m app.ml.train
-
-# Start the API
 uvicorn app.main:app --reload --port 8000
 ```
 
-The API is now live at `http://localhost:8000` (interactive docs at
-`http://localhost:8000/docs`).
+Check `http://localhost:8000/health`
 
-### 2. Frontend
+### Frontend
 
 ```bash
 cd frontend
 npm install
-cp .env.example .env   # points the app at http://localhost:8000
+cp .env.example .env
 npm run dev
 ```
 
-Open the printed local URL (typically `http://localhost:5173`).
+## What I'd still improve
 
-## Kaggle dataset
+- The skill taxonomy is a curated keyword list, not learned — it'll miss niche or emerging skills that aren't in the bank yet.
+- No auth, no persistence — every analysis is stateless, nothing gets saved.
 
-["Resume Dataset" by Snehaan Bhawal](https://www.kaggle.com/datasets/snehaanbhawal/resume-dataset).
-Download `Resume.csv` and place it at `backend/data/Resume.csv`, then re-run
-`python -m app.ml.train` — see `backend/data/README.md` for details. The repo
-ships with a synthetic placeholder dataset (same column schema, same
-category names) so the pipeline runs end-to-end even without Kaggle access;
-swap in the real file for accurate, submission-ready results.
+## License
 
-## What's under the hood
-
-**Backend / ML** (`backend/app/`)
-- `ml/preprocess.py` — regex + BeautifulSoup text cleaning
-- `ml/train.py` — EDA (matplotlib/seaborn plots + summary stats), TF-IDF
-  vectorization, cross-validated comparison of Logistic Regression / Linear
-  SVM / Naive Bayes / Random Forest, held-out evaluation, confusion matrix
-- `ml/predict.py` — loads the trained model and explains predictions via
-  per-class coefficient contribution
-- `ml/matcher.py` — TF-IDF cosine similarity + skill-taxonomy overlap
-  between a resume and a job description
-- `skills.py` — curated skill taxonomy spanning the dataset's categories
-- `text_extract.py` — PDF (pdfplumber) / DOCX (python-docx) / TXT parsing
-- `main.py` — FastAPI routes (`/analyze`, `/match-text`, `/health`)
-
-**Frontend** (`frontend/src/`)
-- `components/AnalyzerPanel.tsx` — upload + job description + results
-- `components/ScoreGauge.tsx` — hand-built SVG arc gauge for the fit score
-- `components/CategoryCard.tsx`, `JobFitCard.tsx`, `SkillChips.tsx` — results
-- `lib/api.ts` — typed fetch client for the FastAPI backend
+MIT — see [LICENSE](./LICENSE).
