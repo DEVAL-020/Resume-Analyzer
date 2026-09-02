@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.ml import matcher
 from app.ml.predict import ModelNotTrainedError, get_meta, is_ready, predict_category
+from app.resume_validator import resume_confidence
 from app.schemas import AnalyzeResponse, HealthResponse
 from app.text_extract import UnsupportedFileType, extract_text
 
@@ -18,7 +19,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # relax for local dev / demo; tighten for prod
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -63,6 +64,16 @@ async def analyze(
             "resume instead.",
         )
 
+    resume_check = resume_confidence(raw_text)
+    if not resume_check["is_resume"]:
+        raise HTTPException(
+            422,
+            "This file doesn't look like a resume (no recognizable sections "
+            "like Experience, Education, or Skills, and/or no contact info "
+            "were found). Please upload an actual resume in PDF, DOCX, or "
+            "TXT format.",
+        )
+
     try:
         category_result = predict_category(raw_text)
     except ModelNotTrainedError as e:
@@ -87,6 +98,15 @@ async def match_text(resume_text: str = Form(...), job_description: str = Form(.
         raise HTTPException(422, "resume_text is too short to analyze.")
     if len(job_description.strip()) < 20:
         raise HTTPException(422, "job_description is too short to analyze.")
+
+    resume_check = resume_confidence(resume_text)
+    if not resume_check["is_resume"]:
+        raise HTTPException(
+            422,
+            "This text doesn't look like a resume (no recognizable sections "
+            "like Experience, Education, or Skills, and/or no contact info "
+            "were found). Please paste an actual resume.",
+        )
 
     try:
         category_result = predict_category(resume_text)
