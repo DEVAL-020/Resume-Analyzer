@@ -47,7 +47,7 @@ export default function CategoryCard({ prediction }: { prediction: CategoryPredi
           </p>
           <p className="mt-2 leading-8">
             {prediction.explanation_terms.map((term) => (
-              <span key={term} className="highlight-mark mr-1 font-medium">
+              <span key={term} className="mr-1 font-medium">
                 {term}
               </span>
             ))}
