@@ -14,6 +14,15 @@
 
 There's also a basic content check now — if you upload something that isn't a resume (an invoice, an essay, a random PDF), it gets rejected before it wastes a model prediction on garbage input.
 
+---
+
+## Demo:
+
+![Demo](./docs/assets/Demo.gif)
+
+
+---
+
 ## Tech stack:
 
 **Backend:** Python, FastAPI, scikit-learn, pandas, NumPy, SciPy, matplotlib, seaborn, BeautifulSoup, pdfplumber, python-docx
