@@ -18,7 +18,7 @@ There's also a basic content check now — if you upload something that isn't a 
 
 ## Demo:
 
-![Demo](./docs/assets/Demo.gif)
+![Demo](./Demo.gif)
 
 
 ---
